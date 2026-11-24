@@ -1,1 +1,1 @@
-export const API_BASE = "http://localhost:7860";
+export const API_BASE = "https://shopbot-mobile.onrender.com";
