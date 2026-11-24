@@ -98,7 +98,6 @@ def classify(message, preference):
     model = ChatAnthropic(
         model=os.getenv("ANTHROPIC_MODEL", "claude-haiku-5-5"),
         max_tokens=220,
-        temperature=0,
         max_retries=0,
         timeout=12,
     ).with_structured_output(Intent, include_raw=True)
