@@ -23,6 +23,21 @@ load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 logger = logging.getLogger(__name__)
 
 
+def provider_failure_reason(error):
+    if not isinstance(error, APIError):
+        return None
+    message = str(error).lower()
+    if any(term in message for term in ("credit balance", "spend limit", "billing")):
+        return "billing_or_spend_limit"
+    if any(term in message for term in ("api key", "authentication", "unauthorized")):
+        return "authentication"
+    if any(term in message for term in ("schema", "tool_choice", "structured output", "output_config")):
+        return "structured_request"
+    if any(term in message for term in ("model:", "model not found", "model is not", "does not support")):
+        return "model_or_capability"
+    return "unclassified"
+
+
 class ChatRequest(BaseModel):
     user_id: str = Field(min_length=1, max_length=128, pattern=r"^[A-Za-z0-9_.:-]+$")
     thread_id: str = Field(min_length=1, max_length=128, pattern=r"^[A-Za-z0-9_.:-]+$")
@@ -305,9 +320,9 @@ def chat(request: ChatRequest):
         return {"reply": "The phone advisor has reached its demo usage limit. You can still browse the catalog.",
                 "tool_calls": [], "tokens": {"in": 0, "out": 0}}
     except (APIError, psycopg.Error, TimeoutError) as error:
-        logger.warning("Chat failed: type=%s provider_status=%s sqlstate=%s",
+        logger.warning("Chat failed: type=%s provider_status=%s sqlstate=%s reason=%s",
                        type(error).__name__, getattr(error, "status_code", None),
-                       getattr(error, "sqlstate", None))
+                       getattr(error, "sqlstate", None), provider_failure_reason(error))
         return {"reply": "ShopBot is temporarily unavailable. Please try again.",
                 "tool_calls": [], "tokens": {"in": 0, "out": 0}}
     return {key: result[key] for key in ("reply", "tool_calls", "tokens")}
