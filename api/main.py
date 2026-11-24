@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import re
 from contextlib import asynccontextmanager
@@ -19,6 +20,7 @@ from psycopg.rows import dict_row
 from pydantic import BaseModel, Field
 
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+logger = logging.getLogger(__name__)
 
 
 class ChatRequest(BaseModel):
@@ -302,7 +304,10 @@ def chat(request: ChatRequest):
     except ModelCallLimitReached:
         return {"reply": "The phone advisor has reached its demo usage limit. You can still browse the catalog.",
                 "tool_calls": [], "tokens": {"in": 0, "out": 0}}
-    except (APIError, psycopg.Error, TimeoutError):
+    except (APIError, psycopg.Error, TimeoutError) as error:
+        logger.warning("Chat failed: type=%s provider_status=%s sqlstate=%s",
+                       type(error).__name__, getattr(error, "status_code", None),
+                       getattr(error, "sqlstate", None))
         return {"reply": "ShopBot is temporarily unavailable. Please try again.",
                 "tool_calls": [], "tokens": {"in": 0, "out": 0}}
     return {key: result[key] for key in ("reply", "tool_calls", "tokens")}
