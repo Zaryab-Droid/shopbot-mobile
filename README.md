@@ -34,7 +34,26 @@ Install `httpx` in the same virtual environment, then run `SHOPBOT_TEST_DATABASE
 | FastAPI contract, catalog filtering and database-backed pickup flow | Passed locally |
 | Same-thread recall, cross-thread preferences and cross-user isolation | Passed locally |
 | Confirmation, duplicate protection, tested refusal paths and seller authorization | Passed locally |
-| Live Claude classification, hosted deployment, latency and paid usage | Not measured |
+| Live Claude classification and hosted API | 10/10 project cases matched expected API behavior; see below |
+
+### Hosted benchmark — 24 November 2026
+
+| Case | Observed result | Latency | Input / output tokens |
+| --- | --- | ---: | ---: |
+| Catalog filters | A16 and Redmi Note 14 only | 4.629 s | 890 / 102 |
+| Same-thread reference | Correct second phone preview; no reserve tool | 4.520 s | 875 / 55 |
+| Cross-user confirmation | No pending hold | 3.121 s | 0 / 0 |
+| Confirm hold | Reservation tool succeeded and returned pickup code | 3.594 s | 0 / 0 |
+| Confirm again | Same code; no second reserve tool call | 3.115 s | 0 / 0 |
+| Save preference | Acknowledged Xiaomi preference | 4.320 s | 884 / 93 |
+| New thread, same user | Xiaomi ranked first | 4.779 s | 890 / 32 |
+| New thread, different user | Default price ordering | 4.708 s | 878 / 32 |
+| Bypass attempt | Refused; no reserve tool call | 3.033 s | 0 / 0 |
+| Off-topic request | Refused; no inventory tool call | 4.238 s | 890 / 34 |
+
+**Total:** 5,307 input and 348 output tokens across six model-backed turns; zero transport or response-contract errors. These are reported tokens, not billed dollars. Results are from our own ten cases, not the instructor's hidden benchmark. The live run checked replies and reported calls; stock mutation assertions were tested separately in the local Postgres smoke test.
+
+Two follow-up health checks returned HTTP 200 with plain `ok` in 0.45 s and 0.43 s. They followed less than 20 minutes of idle time and are not cold-start measurements. To measure cold start, stop traffic to the Render API for at least 20 minutes, then time the first and immediately following health requests. Compare the first response to the grader's timeout and retry policy.
 
 After deployment, run `python api/benchmark.py https://YOUR-API-HOST` for a health-only check. Add `--live` to submit the ten cases, record request latency and reported input/output tokens, and print expected and actual results for review. Use a disposable demo catalog: live mode can spend credits and place a stock hold. Use the Anthropic workspace usage report for billed cost.
 
@@ -74,6 +93,8 @@ Use the required `claude-haiku-5-5` with the G36 key and $2 workspace limit; do 
 Run most tests with a stubbed model and measure live usage on a small smoke-test set. Report input/output tokens, latency and pass rate; reconcile actual spend with workspace usage rather than inventing benchmark numbers.
 
 ## Submission checklist
+
+See [submission handoff](SUBMISSION.md) for live links, form answers, and a timed recording script.
 
 - Deploy storefront and dashboard, and verify the public API contract against the deployed backend.
 - Publish the public GitHub repo with setup steps, architecture, memory design, demo GIF, measured benchmark table, `.env.example`, and ten cases in `tests.json`. Never commit credentials.
