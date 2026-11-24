@@ -2,7 +2,13 @@
 
 Track 1: a mobile phone storefront for independent Islamabad sellers. Shoppers compare in-stock variants and reserve for pickup; sellers manage catalog, stock and holds in a protected dashboard. Proposed business model: PKR 1,500 per shop per month, with payment for the phone at pickup.
 
-This is a single-store demo, not a live deployment. The sibling `Workshop/` clone is reference material only.
+This is a single-store demo with synthetic inventory. The sibling `Workshop/` clone is reference material only.
+
+## Demo
+
+[Live storefront](https://shopbot-mobile-web.vercel.app/) · [Full 2:05 walkthrough](https://drive.google.com/file/d/1-jbCQ06wpalykhiwbWFb-6kyEF0Vkl-P/view)
+
+![ShopBot Mobile live chat demonstration](docs/demo.gif)
 
 ## Run locally
 
