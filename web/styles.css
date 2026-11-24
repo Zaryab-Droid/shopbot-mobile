@@ -1,0 +1,24 @@
+:root { color-scheme: light; font: 16px/1.5 system-ui, sans-serif; color: #142321; background: #eff5f1; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+header { display: flex; justify-content: space-between; gap: 1rem; padding: 1.1rem max(5vw, 1rem); background: #122d28; }
+header a { color: white; font-weight: 700; }
+main { max-width: 75rem; margin: auto; padding: 2rem 1rem; }
+.hero { padding: clamp(1rem, 4vw, 3rem); background: #d9ede1; border-radius: 1rem; margin-bottom: 1.5rem; }
+.eyebrow { font-weight: 750; letter-spacing: .12em; color: #235745; }
+h1 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1.05; margin: .5rem 0; }
+h2, h3 { margin: 0 0 .55rem; }
+p { margin: .4rem 0; }
+.layout { display: grid; grid-template-columns: 3fr 2fr; gap: 1.25rem; align-items: start; }
+.layout[hidden] { display: none; }
+.cards { display: grid; gap: .8rem; margin-top: .75rem; }
+.card, .panel { background: white; border: 1px solid #c7d8ce; border-radius: .85rem; padding: 1rem; }
+form { display: grid; gap: .55rem; margin-top: .8rem; }
+input, button { font: inherit; padding: .6rem; border-radius: .5rem; }
+input { width: 100%; border: 1px solid #728b80; }
+button { background: #145440; color: white; border: 1px solid transparent; cursor: pointer; }
+button:disabled { opacity: .55; cursor: wait; }
+.secondary { color: #145440; background: #e6f3eb; }
+#messages { overflow: auto; max-height: 24rem; margin: .75rem 0; }
+.message { white-space: pre-wrap; overflow-wrap: anywhere; padding: .6rem; background: #eff5f1; border-radius: .4rem; }
+@media (max-width: 46rem) { .layout { grid-template-columns: 1fr; } }

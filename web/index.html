@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShopBot Mobile</title>
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="app.js"></script>
+<header><a href="./">ShopBot Mobile</a><a href="seller.html">Seller dashboard</a></header>
+<main>
+  <section class="hero">
+    <p class="eyebrow">ISLAMABAD · PICKUP ONLY</p>
+    <h1>Find a phone that fits your budget.</h1>
+    <p>Compare demo stock and reserve the exact variant before visiting. Pay at pickup.</p>
+  </section>
+  <div class="layout">
+    <section>
+      <h2>Phone catalog</h2>
+      <label>Search catalog <input id="filter" type="search" placeholder="Try Samsung or 128 GB"></label>
+      <div id="catalog" class="cards" aria-live="polite">Loading catalog…</div>
+    </section>
+    <section class="panel">
+      <h2>Phone advisor</h2>
+      <button id="new-chat" class="secondary">New conversation</button>
+      <div id="messages" role="log" aria-live="polite"></div>
+      <form id="chat">
+        <label for="message">Ask about phones or pickup</label>
+        <input id="message" required maxlength="800" placeholder="128 GB under PKR 60,000">
+        <button>Send</button>
+      </form>
+    </section>
+  </div>
+</main>

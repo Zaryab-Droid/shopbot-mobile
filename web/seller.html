@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seller Dashboard · ShopBot Mobile</title>
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="app.js"></script>
+<header><a href="./">ShopBot Mobile</a><a href="./">View storefront</a></header>
+<main>
+  <section class="hero">
+    <p class="eyebrow">SELLER WORKSPACE</p>
+    <h1>Inventory &amp; pickup holds</h1>
+    <form id="seller-login">
+      <label>Seller access token <input id="seller-token" type="password" required></label>
+      <button>Open dashboard</button>
+    </form>
+    <p id="seller-status" role="status"></p>
+  </section>
+  <div id="dashboard" class="layout" hidden>
+    <section><h2>Inventory</h2><div id="inventory" class="cards"></div></section>
+    <section><h2>Recent reservations</h2><div id="reservations" class="cards"></div></section>
+  </div>
+</main>
